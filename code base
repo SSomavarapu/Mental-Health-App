@@ -1,0 +1,123 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+// forward declaration
+class User;
+
+// Appointment class
+class Appointment {
+    private:
+        int id;
+        std::string date;
+        std::string time;
+        User* therapist;
+        User* patient;
+    public:
+        Appointment(int id, std::string date, std::string time, User* therapist, User* patient) {
+            this->id = id;
+            this->date = date;
+            this->time = time;
+            this->therapist = therapist;
+            this->patient = patient;
+        }
+};
+
+// User class (base class)
+class User {
+    private:
+        int id;
+        std::string name;
+        std::string email;
+        std::string password;
+    public:
+        User(int id, std::string name, std::string email, std::string password) {
+            this->id = id;
+            this->name = name;
+            this->email = email;
+            this->password = password;
+        }
+
+        virtual void viewProfile() {
+            std::cout << "ID: " << id << std::endl;
+            std::cout << "Name: " << name << std::endl;
+            std::cout << "Email: " << email << std::endl;
+        }
+};
+
+// Therapist class (derived from User)
+class Therapist : public User {
+    private:
+        std::vector<Appointment*> appointments;
+    public:
+        Therapist(int id, std::string name, std::string email, std::string password) : User(id, name, email, password) {}
+
+        void viewProfile() override {
+            User::viewProfile();
+            std::cout << "Role: Therapist" << std::endl;
+        }
+
+        void addAppointment(Appointment* appointment) {
+            appointments.push_back(appointment);
+        }
+};
+
+// Patient class (derived from User)
+class Patient : public User {
+    private:
+        std::vector<Appointment*> appointments;
+    public:
+        Patient(int id, std::string name, std::string email, std::string password) : User(id, name, email, password) {}
+
+        void viewProfile() override {
+            User::viewProfile();
+            std::cout << "Role: Patient" << std::endl;
+        }
+
+        void addAppointment(Appointment* appointment) {
+            appointments.push_back(appointment);
+        }
+};
+
+// ChatMessage class
+class ChatMessage {
+    private:
+        std::string message;
+        User* sender;
+        User* recipient;
+    public:
+        ChatMessage(std::string message, User* sender, User* recipient) {
+            this->message = message;
+            this->sender = sender;
+            this->recipient = recipient;
+        }
+};
+
+// ForumPost class
+class ForumPost {
+    private:
+        int id;
+        std::string title;
+        std::string content;
+        User* author;
+        std::vector<ChatMessage*> comments;
+    public:
+        ForumPost(int id, std::string title, std::string content, User* author) {
+            this->id = id;
+            this->title = title;
+            this->content = content;
+            this->author = author;
+        }
+
+        void addComment(ChatMessage* comment) {
+            comments.push_back(comment);
+        }
+};
+
+// Main function for testing
+int main() {
+    // Create users
+    Therapist therapist1(1, "John Doe", "john.doe@therapist.com", "password123");
+    Patient patient1(2, "Jane Smith", "jane.smith@gmail.com", "password456");
+
+}
